@@ -1,0 +1,12 @@
+auth controller reset password
+ @PostMapping("/resetPassword/{id}")
+    public  ResponseEntity<String> resetPassword(@RequestBody ResetPasswordDto resetPasswordDto, @PathVariable int id){
+        return ResponseEntity.ok(service.resetPassword(resetPasswordDto, id));
+    }
+
+    auth service public String resetPassword(ResetPasswordDto resetPasswordDto, int id) {
+                         User user = userRepository.findById(id).orElse(null);
+                         user.setPassword(passwordEncoder.encode(resetPasswordDto.getNewPassword()));
+                         userRepository.save(user);
+                         return "password reset";
+                     }
